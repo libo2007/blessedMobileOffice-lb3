@@ -48,12 +48,12 @@ public class ChangeDeviceResultActivity extends BaseActivity implements OnCountD
     private ResponseHandler responseHandler;
     private ResContext resContext;
     private NullRes nullRes;
-    private SerRes serRes;
-    private ZxdcRes zxdcRes;
-    private TabletRes tabletRes;
-    private SerAndZxdcRes serAndZxdcRes;
-    private SerAndTablet serAndTablet;
-    private TabletAndZxdc tabletAndZxdc;
+//    private SerRes serRes;
+//    private ZxdcRes zxdcRes;
+//    private TabletRes tabletRes;
+//    private SerAndZxdcRes serAndZxdcRes;
+//    private SerAndTablet serAndTablet;
+//    private TabletAndZxdc tabletAndZxdc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +75,12 @@ public class ChangeDeviceResultActivity extends BaseActivity implements OnCountD
 
         //收到信息的各种状态
         nullRes = new NullRes();
-        serRes = new SerRes();
-        zxdcRes = new ZxdcRes();
-        tabletRes = new TabletRes();
-        serAndZxdcRes = new SerAndZxdcRes();
-        serAndTablet = new SerAndTablet();
-        tabletAndZxdc = new TabletAndZxdc();
+//        serRes = new SerRes();
+//        zxdcRes = new ZxdcRes();
+//        tabletRes = new TabletRes();
+//        serAndZxdcRes = new SerAndZxdcRes();
+//        serAndTablet = new SerAndTablet();
+//        tabletAndZxdc = new TabletAndZxdc();
 
         resContext.setCurState(nullRes);
 
@@ -134,7 +134,7 @@ public class ChangeDeviceResultActivity extends BaseActivity implements OnCountD
             constructConfirm_donorCmd(retcmd, identityCardEntity, plasmaMachineEntity.getLocationID());
 
             clientService.getApDataCenter().addSendCmd(retcmd);
-            showProgress("设备更换中", "服务器（**）\n多媒体平板（**）\n单采机（**）");
+            showProgress("设备更换中", "服务器（**）");
         } else {
             MyLog.e(TAG, "clientService==null");
         }
@@ -193,7 +193,7 @@ public class ChangeDeviceResultActivity extends BaseActivity implements OnCountD
                 allocateDev();
 
                 //显示更换进度对话框
-                showProgress("设备更换中", "服务器（**）\n多媒体平板（**）\n单采机（**）");
+                showProgress("设备更换中", "服务器（**）");
 
             }
         });
@@ -338,144 +338,147 @@ public class ChangeDeviceResultActivity extends BaseActivity implements OnCountD
             switch (res) {
 
                 case ALOC_SERVERRES_PASS:
-                    resContext.setCurState(serRes);
-                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（**）\n单采机（**）");
-                    break;
-                case ALOC_SERVERRES_NOT_PASS:
-                    showFailDialog("设备更换失败", "今日不可献浆");
-                    countDownTimerUtil.cancel();
-                    disAllocDevDialog();
-                    break;
-                case ALOC_TABLETRES:
-                    resContext.setCurState(tabletRes);
-                    showProgress("设备更换中", "服务器（**）\n多媒体平板（应答）\n单采机（**）");
-                    break;
-                case ALOC_ZXDCRES:
-                    resContext.setCurState(zxdcRes);
-                    showProgress("", "服务器（**）\n多媒体平板（**）\n单采机（应答）");
-                    break;
-            }
-        }
-    }
-
-    private class SerRes extends State {
-
-        @Override
-        void handle(Res res) {
-            switch (res) {
-
-                case ALOC_TABLETRES:
-                    resContext.setCurState(serAndTablet);
-                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（**）");
-                    break;
-                case ALOC_ZXDCRES:
-                    resContext.setCurState(serAndZxdcRes);
-                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（**）\n单采机（应答）");
-                    break;
-            }
-
-        }
-    }
-
-    private class ZxdcRes extends State {
-
-        @Override
-        void handle(Res res) {
-            switch (res) {
-                case ALOC_SERVERRES_PASS:
-                    resContext.setCurState(serAndZxdcRes);
-                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（**）\n单采机（应答）");
-                    break;
-                case ALOC_SERVERRES_NOT_PASS:
-                    showFailDialog("设备更换失败", "今日不可献浆");
-                    countDownTimerUtil.cancel();
-                    disAllocDevDialog();
-                    break;
-                case ALOC_TABLETRES:
-                    resContext.setCurState(tabletAndZxdc);
-                    showProgress("设备更换中", "服务器（**）\n多媒体平板（应答）\n单采机（应答）");
-                    break;
-            }
-        }
-    }
-
-    private class TabletRes extends State {
-
-        @Override
-        void handle(Res res) {
-            switch (res) {
-                case ALOC_SERVERRES_PASS:
-                    resContext.setCurState(serAndTablet);
-                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（**）");
-                    break;
-                case ALOC_SERVERRES_NOT_PASS:
-                    showFailDialog("设备更换失败", "今日不可献浆");
-                    countDownTimerUtil.cancel();
-                    disAllocDevDialog();
-                    break;
-                case ALOC_ZXDCRES:
-                    resContext.setCurState(tabletAndZxdc);
-                    showProgress("设备更换中", "服务器（**）\n多媒体平板（应答）\n单采机（应答）");
-                    break;
-            }
-        }
-    }
-
-    private class SerAndZxdcRes extends State {
-
-        @Override
-        void handle(Res res) {
-            switch (res) {
-                case ALOC_TABLETRES:
-                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（应答）");
+//                    resContext.setCurState(serRes);
+                    showProgress("设备更换成功", "服务器（应答）");
                     showSuccesslDialog("设备更换成功", "请到" + plasmaMachineEntity.getLocationID() + "号浆机！");
                     countDownTimerUtil.cancel();
                     disAllocDevDialog();
                     break;
-
-            }
-
-        }
-    }
-
-    private class SerAndTablet extends State {
-
-        @Override
-        void handle(Res res) {
-            switch (res) {
-                case ALOC_ZXDCRES:
-                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（应答）");
-                    showSuccesslDialog("设备更换成功", "请到" + plasmaMachineEntity.getLocationID() + "号浆机！");
-                    countDownTimerUtil.cancel();
-                    disAllocDevDialog();
-                    break;
-
-            }
-
-        }
-    }
-
-    private class TabletAndZxdc extends State {
-
-        @Override
-        void handle(Res res) {
-            switch (res) {
-                case ALOC_SERVERRES_PASS:
-                    showProgress("设备更换", "服务器（应答）\n多媒体平板（应答）\n单采机（应答）");
-                    showSuccesslDialog("设备更换成功", "请到" + plasmaMachineEntity.getLocationID() + "号浆机！");
-                    countDownTimerUtil.cancel();
-                    disAllocDevDialog();
-                    break;
-
                 case ALOC_SERVERRES_NOT_PASS:
                     showFailDialog("设备更换失败", "今日不可献浆");
                     countDownTimerUtil.cancel();
                     disAllocDevDialog();
                     break;
-
+//                case ALOC_TABLETRES:
+//                    resContext.setCurState(tabletRes);
+//                    showProgress("设备更换中", "服务器（**）\n多媒体平板（应答）\n单采机（**）");
+//                    break;
+//                case ALOC_ZXDCRES:
+//                    resContext.setCurState(zxdcRes);
+//                    showProgress("", "服务器（**）\n多媒体平板（**）\n单采机（应答）");
+//                    break;
             }
         }
     }
+
+//    private class SerRes extends State {
+//
+//        @Override
+//        void handle(Res res) {
+//            switch (res) {
+//
+//                case ALOC_TABLETRES:
+//                    resContext.setCurState(serAndTablet);
+//                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（**）");
+//                    break;
+//                case ALOC_ZXDCRES:
+//                    resContext.setCurState(serAndZxdcRes);
+//                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（**）\n单采机（应答）");
+//                    break;
+//            }
+//
+//        }
+//    }
+
+//    private class ZxdcRes extends State {
+//
+//        @Override
+//        void handle(Res res) {
+//            switch (res) {
+//                case ALOC_SERVERRES_PASS:
+//                    resContext.setCurState(serAndZxdcRes);
+//                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（**）\n单采机（应答）");
+//                    break;
+//                case ALOC_SERVERRES_NOT_PASS:
+//                    showFailDialog("设备更换失败", "今日不可献浆");
+//                    countDownTimerUtil.cancel();
+//                    disAllocDevDialog();
+//                    break;
+//                case ALOC_TABLETRES:
+//                    resContext.setCurState(tabletAndZxdc);
+//                    showProgress("设备更换中", "服务器（**）\n多媒体平板（应答）\n单采机（应答）");
+//                    break;
+//            }
+//        }
+//    }
+
+//    private class TabletRes extends State {
+//
+//        @Override
+//        void handle(Res res) {
+//            switch (res) {
+//                case ALOC_SERVERRES_PASS:
+//                    resContext.setCurState(serAndTablet);
+//                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（**）");
+//                    break;
+//                case ALOC_SERVERRES_NOT_PASS:
+//                    showFailDialog("设备更换失败", "今日不可献浆");
+//                    countDownTimerUtil.cancel();
+//                    disAllocDevDialog();
+//                    break;
+//                case ALOC_ZXDCRES:
+//                    resContext.setCurState(tabletAndZxdc);
+//                    showProgress("设备更换中", "服务器（**）\n多媒体平板（应答）\n单采机（应答）");
+//                    break;
+//            }
+//        }
+//    }
+
+//    private class SerAndZxdcRes extends State {
+//
+//        @Override
+//        void handle(Res res) {
+//            switch (res) {
+//                case ALOC_TABLETRES:
+//                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（应答）");
+//                    showSuccesslDialog("设备更换成功", "请到" + plasmaMachineEntity.getLocationID() + "号浆机！");
+//                    countDownTimerUtil.cancel();
+//                    disAllocDevDialog();
+//                    break;
+//
+//            }
+//
+//        }
+//    }
+
+//    private class SerAndTablet extends State {
+//
+//        @Override
+//        void handle(Res res) {
+//            switch (res) {
+//                case ALOC_ZXDCRES:
+//                    showProgress("设备更换中", "服务器（应答）\n多媒体平板（应答）\n单采机（应答）");
+//                    showSuccesslDialog("设备更换成功", "请到" + plasmaMachineEntity.getLocationID() + "号浆机！");
+//                    countDownTimerUtil.cancel();
+//                    disAllocDevDialog();
+//                    break;
+//
+//            }
+//
+//        }
+//    }
+
+//    private class TabletAndZxdc extends State {
+//
+//        @Override
+//        void handle(Res res) {
+//            switch (res) {
+//                case ALOC_SERVERRES_PASS:
+//                    showProgress("设备更换", "服务器（应答）\n多媒体平板（应答）\n单采机（应答）");
+//                    showSuccesslDialog("设备更换成功", "请到" + plasmaMachineEntity.getLocationID() + "号浆机！");
+//                    countDownTimerUtil.cancel();
+//                    disAllocDevDialog();
+//                    break;
+//
+//                case ALOC_SERVERRES_NOT_PASS:
+//                    showFailDialog("设备更换失败", "今日不可献浆");
+//                    countDownTimerUtil.cancel();
+//                    disAllocDevDialog();
+//                    break;
+//
+//            }
+//        }
+//    }
 
     //关闭更换中对话框
     private void disAllocDevDialog() {
