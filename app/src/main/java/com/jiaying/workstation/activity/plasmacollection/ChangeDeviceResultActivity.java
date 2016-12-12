@@ -122,7 +122,7 @@ public class ChangeDeviceResultActivity extends BaseActivity implements OnCountD
     public void onFinish() {
         disAllocDevDialog();
         resContext.close();
-        showFailDialog("设备分配失败", "分配超时");
+        showFailDialog("设备更换失败", "更换超时");
     }
 
     //将浆员信息发送到服务器
