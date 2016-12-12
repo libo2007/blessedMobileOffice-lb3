@@ -29,7 +29,7 @@ public class DeviceActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void initView() {
         setContentView(R.layout.activity_device);
-        new SetTopView(this, R.string.device_info, false);
+        new SetTopView(this, R.string.device_info, true);
         btn_start = (Button) findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this);
         btn_stop = (Button) findViewById(R.id.btn_stop);

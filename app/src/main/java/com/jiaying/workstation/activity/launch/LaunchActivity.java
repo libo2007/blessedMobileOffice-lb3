@@ -304,7 +304,7 @@ public class LaunchActivity extends BaseActivity {
     private void getLocalTempPlasmaMachineList() {
 
         List<PlasmaMachineEntity> plasmaMachineEntityList = new ArrayList<PlasmaMachineEntity>();
-        for (int i = 10001; i < 10020; i++) {
+        for (int i = 10001; i <= 10020; i++) {
             PlasmaMachineEntity entity = new PlasmaMachineEntity();
             if (i % 2 == 0) {
                 entity.setState(0);

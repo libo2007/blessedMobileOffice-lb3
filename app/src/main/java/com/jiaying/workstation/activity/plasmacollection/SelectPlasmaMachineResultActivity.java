@@ -90,7 +90,7 @@ public class SelectPlasmaMachineResultActivity extends BaseActivity implements O
     @Override
     public void initView() {
         setContentView(R.layout.activity_pulp_machine_select_result);
-        new SetTopView(this, R.string.title_activity_pulp_machine_select_result, false);
+        new SetTopView(this, R.string.title_activity_pulp_machine_select_result, true);
         time_txt = (TextView) findViewById(R.id.time_txt);
         number_txt = (TextView) findViewById(R.id.number_txt);
         number_txt.setText("请到" + plasmaMachineEntity.getLocationID() + "号浆机");

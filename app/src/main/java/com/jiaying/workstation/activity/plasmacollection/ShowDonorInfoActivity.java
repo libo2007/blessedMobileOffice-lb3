@@ -65,6 +65,9 @@ public class ShowDonorInfoActivity extends BaseActivity {
                     case TypeConstant.TYPE_BLOODPLASMACOLLECTION:
                         goToSelectMachineAct();
                         break;
+                    case TypeConstant.TYPE_CHANGE_DEVICE:
+                        goToChangetDeviceAct();
+                        break;
                 }
             }
 
@@ -74,6 +77,11 @@ public class ShowDonorInfoActivity extends BaseActivity {
                 startActivity(intent);
             }
 
+            private void goToChangetDeviceAct(){
+                Intent intent = new Intent(ShowDonorInfoActivity.this, ChangeDeviceActivity.class);
+                finish();
+                startActivity(intent);
+            }
             private void goToFaceCollectionAct() {
                 Intent intent = new Intent(ShowDonorInfoActivity.this, RegisterResultActivity.class);
                 finish();

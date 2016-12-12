@@ -21,7 +21,7 @@
     <string name="title_activity_pulp_machine_for_nurse">选择登录身份</string>
     <string name="title_activity_pulp_machine_select">为献浆员分配采浆设备</string>
     <string name="title_activity_pulp_machine_select_result">浆机分配情况</string>
-    <string name="title_activity_change_device_result">浆机换机情况</string>
+    <string name="title_activity_change_device_result">浆机换机</string>
     <string name="title_activity_show_donor_info">浆员信息</string>
     <string name="title_activity_login">选择登录身份</string>
     <string name="title_activity_identity">刷读身份证</string>

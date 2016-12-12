@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.jiaying.workstation.R;
 import com.jiaying.workstation.activity.plasmacollection.ChangeDeviceResultActivity;
+import com.jiaying.workstation.activity.plasmacollection.ManualIdentityCardActivity;
 import com.jiaying.workstation.activity.plasmacollection.Res;
 import com.jiaying.workstation.activity.plasmacollection.SelectPlasmaMachineResultActivity;
+import com.jiaying.workstation.activity.sensor.FingerprintActivity;
 import com.jiaying.workstation.activity.sensor.IdentityCardActivity;
 import com.jiaying.workstation.adapter.PlasmaMachineSelectAdapter;
 import com.jiaying.workstation.app.MobileofficeApp;
@@ -25,6 +27,7 @@ import com.jiaying.workstation.constant.IntentExtra;
 import com.jiaying.workstation.constant.TypeConstant;
 import com.jiaying.workstation.entity.PlasmaMachineEntity;
 import com.jiaying.workstation.thread.ObservableZXDCSignalListenerThread;
+import com.jiaying.workstation.utils.DealFlag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +38,13 @@ import java.util.Observer;
  * 换机
  */
 public class ChangeDeviceFragment extends Fragment {
-    private static final String TAG = "SelectPlasmaMachineActivity";
-    private GridView mGridView;
-    private List<PlasmaMachineEntity> mList;
-    private PlasmaMachineSelectAdapter mAdapter;
+    private Button nurse_login_btn;
+    private Button pulp_btn;
+    private DealFlag btn_collection_flag;
 
+    private Button btn_idcard_forget;
+    private Button btn_idcard_broken;
 
-    private PlasmaMachineStateHandlerObserver plasmaMachineStateHandlerObserver;
-    private ResContext resContext;
-    private PlasmaMachineStateRes plasmaMachineStateRes;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,101 +54,57 @@ public class ChangeDeviceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_change_device, container, false);
-        mGridView = (GridView) view.findViewById(R.id.gridview);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent it = new Intent(getActivity(), ChangeDeviceResultActivity.class);
-                it.putExtra(IntentExtra.EXTRA_PLASMAMACHINE, mList.get(position));
-                startActivity(it);
-            }
-        });
-        mList = new ArrayList<PlasmaMachineEntity>();
-        mAdapter = new PlasmaMachineSelectAdapter(mList, getActivity());
-        mGridView.setAdapter(mAdapter);
-        mList.addAll(MobileofficeApp.getPlasmaMachineEntityList());
-        mAdapter.notifyDataSetChanged();
-        resContext = new ResContext();
-        resContext.open();
-        plasmaMachineStateHandlerObserver = new PlasmaMachineStateHandlerObserver();
-        ObservableZXDCSignalListenerThread.addObserver(plasmaMachineStateHandlerObserver);
-        resContext.setCurState(plasmaMachineStateRes);
+
+        pulp_btn = (Button) view.findViewById(R.id.btn_collection);
+        pulp_btn.setOnClickListener(new ClickListener());
+        btn_collection_flag = new DealFlag();
+
+        btn_idcard_forget = (Button) view.findViewById(R.id.btn_idcard_forget);
+        btn_idcard_forget.setOnClickListener(new ClickListener());
+        btn_idcard_broken = (Button) view.findViewById(R.id.btn_idcard_broken);
+        btn_idcard_broken.setOnClickListener(new ClickListener());
         return view;
     }
 
-
-
-    private class PlasmaMachineStateHandlerObserver extends Handler implements Observer {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            msg.obj = (msg.obj == null) ? (Res.NOTHING) : (msg.obj);
-            switch ((Res) msg.obj) {
-                case ZXDC_STATE_CHANGE:
-                    resContext.handle((Res) msg.obj);
-                    break;
-            }
-
-        }
-
-        @Override
-        public void update(Observable observable, Object data) {
-
-            Message msg = Message.obtain();
-            msg.obj = data;
-            this.sendMessage(msg);
-
-        }
-    }
-
-    private class PlasmaMachineStateRes extends State {
-
-        @Override
-        void handle(Res res) {
-            switch (res) {
-                case ZXDC_STATE_CHANGE:
-                    mList.clear();
-                    mList.addAll(MobileofficeApp.getPlasmaMachineEntityList());
-                    mAdapter.notifyDataSetChanged();
-                    resContext.setCurState(plasmaMachineStateRes);
-                    break;
-
-            }
-
-        }
-    }
-
-    private class ResContext {
-        private State state;
-
-        private Boolean isOpen = true;
-
-        public synchronized void open() {
-            this.isOpen = true;
-        }
-
-        public synchronized void close() {
-            this.isOpen = false;
-        }
-
-        public void setCurState(State state) {
-            this.state = state;
-        }
-
-        private synchronized void handle(Res res) {
-            if (isOpen) {
-                state.handle(res);
-            }
-        }
-    }
-
-    private abstract class State {
-        abstract void handle(Res res);
-    }
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ObservableZXDCSignalListenerThread.deleteObserver(plasmaMachineStateHandlerObserver);
+    public void onPause() {
+        super.onPause();
+        btn_collection_flag.reset();
+    }
+
+    //献浆
+    private class ClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            if (btn_collection_flag.isFirst()) {
+                Intent it = null;
+                switch (v.getId()) {
+                    case R.id.btn_collection:
+                        it = new Intent(getActivity(), IdentityCardActivity.class);
+                        it.putExtra("type", "normal");
+                        it.putExtra(IntentExtra.EXTRA_TYPE, TypeConstant.TYPE_CHANGE_DEVICE);
+                        break;
+
+                    case R.id.btn_idcard_forget:
+                        it = new Intent(getActivity(), ManualIdentityCardActivity.class);
+                        it.putExtra(IntentExtra.EXTRA_TYPE, TypeConstant.TYPE_CHANGE_DEVICE);
+                        it.putExtra("type", "forgot");
+                        break;
+
+                    case R.id.btn_idcard_broken:
+                        it = new Intent(getActivity(), ManualIdentityCardActivity.class);
+                        it.putExtra(IntentExtra.EXTRA_TYPE, TypeConstant.TYPE_CHANGE_DEVICE);
+                        it.putExtra("type", "broken");
+                        break;
+
+                    default:
+                        break;
+                }
+                if (it != null) {
+                    startActivity(it);
+                }
+
+            }
+        }
     }
 }
-

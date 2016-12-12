@@ -27,7 +27,7 @@ import com.jiaying.workstation.utils.SetTopView;
 /*
 身份证模块
  */
-public class IdentityCardActivity extends BaseActivity implements IidReader.OnIdReadCallback, IidReader.OnIdopenCallback ,OnCountDownTimerFinishCallback {
+public class IdentityCardActivity extends BaseActivity implements IidReader.OnIdReadCallback, IidReader.OnIdopenCallback, OnCountDownTimerFinishCallback {
     private static final String TAG = "IdentityCardActivity";
     private TextView result_txt;
     private TextView state_txt;
@@ -144,6 +144,7 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
                     goToShowDonorInfo();
                     break;
                 case TypeConstant.TYPE_BLOODPLASMACOLLECTION:
+                case TypeConstant.TYPE_CHANGE_DEVICE:
                     goToShowDonorInfo();
                     break;
             }
@@ -187,20 +188,23 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
         super.onDestroy();
         proxyIdReader.close();
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        MyLog.e(TAG,"onNewIntent=" + this.toString());
+        MyLog.e(TAG, "onNewIntent=" + this.toString());
         startTimer();
         photo_image.setImageResource(R.mipmap.identity_card);
         proxyIdReader.read();
     }
-    private void startTimer(){
+
+    private void startTimer() {
         countDownTimerUtil = CountDownTimerUtil.getInstance(result_txt, this);
         countDownTimerUtil.setOnCountDownTimerFinishCallback(this);
         countDownTimerUtil.start();
     }
-    private void finishTimer(){
+
+    private void finishTimer() {
         if (countDownTimerUtil != null) {
             countDownTimerUtil.cancel();
             countDownTimerUtil = null;
@@ -211,6 +215,7 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
     public void onFinish() {
         dealBackClickEvent();
     }
+
     /**
      * 处理返回按钮
      */

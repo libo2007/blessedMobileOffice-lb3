@@ -29,9 +29,9 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-//浆机分配给浆员的结果
+//浆机换机的结果
 public class ChangeDeviceResultActivity extends BaseActivity implements OnCountDownTimerFinishCallback {
-    private static final String TAG = "SelectPlasmaMachineResultActivity";
+    private static final String TAG = "ChangeDeviceResultActivity";
     private CountDownTimerUtil countDownTimerUtil;
     private TextView time_txt;
     private TextView number_txt;

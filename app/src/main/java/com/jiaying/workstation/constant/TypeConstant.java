@@ -14,6 +14,9 @@ public class TypeConstant {
     //采浆
     public static final int  TYPE_BLOODPLASMACOLLECTION = 2;
 
+    //换机
+    public static final int  TYPE_CHANGE_DEVICE = 9;
+
     //体检
     public static final int TYPE_PHYSICAL_EXAM = 3;
 
