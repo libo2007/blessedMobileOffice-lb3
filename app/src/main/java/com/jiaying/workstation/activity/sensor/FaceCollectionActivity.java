@@ -91,7 +91,7 @@ public class FaceCollectionActivity extends BaseActivity implements IfaceCollect
      * 处理返回按钮
      */
     private void dealBackClickEvent() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, IdentityCardActivity.class));
         finish();
     }
     @Override

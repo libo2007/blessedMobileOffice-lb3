@@ -14,6 +14,7 @@ import com.jiaying.workstation.activity.BaseActivity;
 import com.jiaying.workstation.activity.MainActivity;
 import com.jiaying.workstation.activity.register.RegisterResultActivity;
 import com.jiaying.workstation.activity.sensor.FaceCollectionActivity;
+import com.jiaying.workstation.activity.sensor.IdentityCardActivity;
 import com.jiaying.workstation.constant.IntentExtra;
 import com.jiaying.workstation.constant.TypeConstant;
 import com.jiaying.workstation.entity.IdentityCardEntity;
@@ -57,7 +58,7 @@ public class ShowDonorInfoActivity extends BaseActivity {
      * 处理返回按钮
      */
     private void dealBackClickEvent() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, IdentityCardActivity.class));
         finish();
     }
     @Override
