@@ -5,18 +5,23 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import com.jiaying.workstation.constant.Constants;
 import com.jiaying.workstation.entity.IdentityCardEntity;
 import com.jiaying.workstation.interfaces.IidReader;
 import com.jiaying.workstation.utils.LDAPI;
+import com.jiaying.workstation.utils.MyLog;
 
 /**
  * Created by Administrator on 2016/3/9 0009.
  */
 public class LdIdReader implements IidReader {
+    private static final String TAG = "LdIdReader";
     private OnIdReadCallback onIdReadCallback;
     private OnIdopenCallback onIdopenCallback;
     long ssart = System.currentTimeMillis();
     long ssend = System.currentTimeMillis();
+    private boolean isFirstStart = true;
+    private long firststart = System.currentTimeMillis();
     private HandlerThread readHandlerThread;
     private Handler cardHandler;
     private boolean readFlag = false;
@@ -91,8 +96,12 @@ public class LdIdReader implements IidReader {
 
     @Override
     public void read() {
+        MyLog.e(TAG,"read");
         //开始读取身份证
         readFlag = false;
+        isFirstStart = true;
+        readStatus = 1;
+        cardHandler.removeCallbacks(cardTasks);
         cardHandler.post(cardTasks);
     }
 
@@ -100,7 +109,7 @@ public class LdIdReader implements IidReader {
         public void run()// 运行该服务执行此函数
         {
             long timecount = 0;
-            Log.e("IDCARD readStatus = ", "" + readStatus);
+            Log.e(TAG, "readStatus:" + readStatus);
             if (readFlag) {
                 return;
             }
@@ -109,6 +118,10 @@ public class LdIdReader implements IidReader {
 
                 case 1:
                     ssart = System.currentTimeMillis();
+                    if(isFirstStart){
+                        firststart = System.currentTimeMillis();
+                        isFirstStart = false;
+                    }
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -120,6 +133,13 @@ public class LdIdReader implements IidReader {
                         readStatus++;
                     else {
                         readStatus = 1;
+                        ssend = System.currentTimeMillis();
+                        timecount = (ssend - firststart);
+                        Log.e(TAG,"未刷卡：timecount:" + timecount);
+                        if (timecount > Constants.COUNT_DOWN_TIME_20S) {
+                            Log.e(TAG, "未刷卡超时");
+                            readStatus = 0;
+                        }
                     }
                     break;
                 case 2:
@@ -135,7 +155,7 @@ public class LdIdReader implements IidReader {
                     ssend = System.currentTimeMillis();
                     timecount = (ssend - ssart);
                     if (timecount > 5000) {
-                        Log.e("IDCARD readStatus = ", "超时");
+                        Log.e(TAG, "超时");
                         readStatus = 0;
                     }
                     //读取身份证卡的信息，返回职位IDCard
@@ -153,6 +173,7 @@ public class LdIdReader implements IidReader {
                         readStatus = 0;
                     } else {
                         if (readStatus == 5) {
+                            readStatus = 0;
                             sendIdCard();
                         } else {
                             readStatus = 4;
@@ -161,7 +182,10 @@ public class LdIdReader implements IidReader {
                     break;
 
             }
-            cardHandler.postDelayed(cardTasks, 500);
+            if(readStatus!=0){
+                //readStatus就不读了
+                cardHandler.postDelayed(cardTasks, 500);
+            }
 
         }
 
@@ -184,6 +208,7 @@ public class LdIdReader implements IidReader {
             card.setPhotoBmp(ZAZAPI.getPhotoBmp());
 //            card.setType("normal");
             onIdReadCallback.onRead(card);
+
         }
     }
 

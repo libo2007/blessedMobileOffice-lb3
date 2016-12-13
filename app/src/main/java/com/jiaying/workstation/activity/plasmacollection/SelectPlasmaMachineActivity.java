@@ -69,7 +69,7 @@ public class SelectPlasmaMachineActivity extends BaseActivity {
         mList = new ArrayList<PlasmaMachineEntity>();
         mAdapter = new PlasmaMachineSelectAdapter(mList, this);
         mGridView.setAdapter(mAdapter);
-        mList.addAll(MobileofficeApp.getPlasmaMachineEntityList());
+        mList.addAll(getLocalTempPlasmaMachineList());
         mAdapter.notifyDataSetChanged();
 
         sure_txt = (TextView) findViewById(R.id.sure_txt);
@@ -92,7 +92,23 @@ public class SelectPlasmaMachineActivity extends BaseActivity {
         ObservableZXDCSignalListenerThread.addObserver(plasmaMachineStateHandlerObserver);
         resContext.setCurState(plasmaMachineStateRes);
     }
+    //模拟得到浆机状态信息,正式数据需要删除
+    private List<PlasmaMachineEntity> getLocalTempPlasmaMachineList() {
+        List<PlasmaMachineEntity> plasmaMachineEntityList = new ArrayList<PlasmaMachineEntity>();
+        for (int i = 10001; i <= 10020; i++) {
+            PlasmaMachineEntity entity = new PlasmaMachineEntity();
+            if (i % 2 == 0) {
+                entity.setState(0);
+            } else {
+                entity.setState(1);
+            }
+            entity.setNurseName("name" + i);
 
+            entity.setLocationID(i + "");
+            plasmaMachineEntityList.add(entity);
+        }
+        return plasmaMachineEntityList;
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

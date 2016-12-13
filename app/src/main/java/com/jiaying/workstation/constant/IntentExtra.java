@@ -15,4 +15,6 @@ public class IntentExtra {
 
     //采浆机
     public static final String EXTRA_PLASMAMACHINE = "extra_plasmamachine";
+    //是否是从身份证跳转来的
+    public static final String EXTRA_FROM_ID_CARD="extar_from_id_card";
 }

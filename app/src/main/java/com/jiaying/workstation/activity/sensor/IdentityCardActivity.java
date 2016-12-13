@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyLog.e(TAG,"onCreate");
     }
 
     @Override
@@ -68,6 +70,13 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
     public void initView() {
         setContentView(R.layout.activity_identity_card);
         new SetTopView(this, R.string.title_activity_identity, true);
+        ImageView back_img = (ImageView) findViewById(R.id.back_img);
+        back_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dealBackClickEvent();
+            }
+        });
         result_txt = (TextView) findViewById(R.id.result_txt);
         photo_image = (ImageView) findViewById(R.id.photo_image);
         //开始倒计时
@@ -84,6 +93,7 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
     @Override
     protected void onResume() {
         super.onResume();
+        MyLog.e(TAG,"onResume");
 //        proxyIdReader.open();
     }
 
@@ -159,7 +169,7 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
         it.putExtra("donorName", donorName);
         it.putExtra("avatar", avtar);
         it.putExtra("idCardNO", idCardNO);
-
+        it.putExtra(IntentExtra.EXTRA_FROM_ID_CARD,true);
         startActivity(it);
 //        finish();
     }
@@ -187,6 +197,7 @@ public class IdentityCardActivity extends BaseActivity implements IidReader.OnId
     protected void onDestroy() {
         super.onDestroy();
         proxyIdReader.close();
+        MyLog.e(TAG,"onDestroy");
     }
 
     @Override

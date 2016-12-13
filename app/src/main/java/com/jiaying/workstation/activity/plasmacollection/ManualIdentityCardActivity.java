@@ -89,9 +89,14 @@ public class ManualIdentityCardActivity extends BaseActivity {
 //                itShowDonorInfoAct = new Intent(ManualIdentityCardActivity.this, SelectPlasmaMachineActivity.class);
                 itShowDonorInfoAct = new Intent(ManualIdentityCardActivity.this, ShowDonorInfoActivity.class);
                 break;
+
+            case TypeConstant.TYPE_CHANGE_DEVICE:
+                itShowDonorInfoAct = new Intent(ManualIdentityCardActivity.this, ShowDonorInfoActivity.class);
+                break;
         }
 
         itShowDonorInfoAct.putExtra(IntentExtra.EXTRA_TYPE, source);
+        itShowDonorInfoAct.putExtra(IntentExtra.EXTRA_FROM_ID_CARD,false);
         startActivity(itShowDonorInfoAct);
         finish();
     }

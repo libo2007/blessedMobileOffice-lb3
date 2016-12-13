@@ -3,6 +3,7 @@ package com.jiaying.workstation.activity.plasmacollection;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.jiaying.workstation.R;
 import com.jiaying.workstation.activity.BaseActivity;
+import com.jiaying.workstation.activity.MainActivity;
 import com.jiaying.workstation.constant.Constants;
 import com.jiaying.workstation.constant.IntentExtra;
 import com.jiaying.workstation.entity.IdentityCardEntity;
@@ -201,7 +203,7 @@ public class SelectPlasmaMachineResultActivity extends BaseActivity implements O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 countDownTimerUtil.cancel();
-                finish();
+                dealBackClickEvent();
                 Log.e("showFailDialog", "放弃");
             }
         });
@@ -228,7 +230,7 @@ public class SelectPlasmaMachineResultActivity extends BaseActivity implements O
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                finish();
+               dealBackClickEvent();
             }
         });
 
@@ -256,7 +258,7 @@ public class SelectPlasmaMachineResultActivity extends BaseActivity implements O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 countDownTimerUtil.cancel();
-                finish();
+                dealBackClickEvent();
             }
         });
 
@@ -485,5 +487,13 @@ public class SelectPlasmaMachineResultActivity extends BaseActivity implements O
                 allocDevDialog = null;
             }
         }
+    }
+
+    /**
+     * 处理返回按钮
+     */
+    private void dealBackClickEvent() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

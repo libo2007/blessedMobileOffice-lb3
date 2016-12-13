@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.jiaying.workstation.R;
 import com.jiaying.workstation.activity.BaseActivity;
+import com.jiaying.workstation.activity.MainActivity;
 import com.jiaying.workstation.activity.register.RegisterResultActivity;
 import com.jiaying.workstation.activity.sensor.FaceCollectionActivity;
 import com.jiaying.workstation.constant.IntentExtra;
@@ -39,14 +40,26 @@ public class ShowDonorInfoActivity extends BaseActivity {
     public void initView() {
         setContentView(R.layout.activity_show_donor_info);
         new SetTopView(this, R.string.title_activity_show_donor_info, true);
-
+        ImageView back_img = (ImageView) findViewById(R.id.back_img);
+        back_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dealBackClickEvent();
+            }
+        });
         //点击确定按钮后，界面跳转到选择浆机界面。
         setBtnSureClickEvent();
 
         //显示浆员信息
         setDonorInfoUi();
     }
-
+    /**
+     * 处理返回按钮
+     */
+    private void dealBackClickEvent() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
     @Override
     public void loadData() {
 

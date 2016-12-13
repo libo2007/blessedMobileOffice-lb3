@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.jiaying.workstation.R;
 import com.jiaying.workstation.activity.BaseActivity;
+import com.jiaying.workstation.activity.MainActivity;
 import com.jiaying.workstation.engine.FaceCollector;
 import com.jiaying.workstation.engine.ProxyFaceCollector;
 import com.jiaying.workstation.interfaces.IfaceCollector;
@@ -53,7 +54,13 @@ public class FaceCollectionActivity extends BaseActivity implements IfaceCollect
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_camera_preview);
         new SetTopView(this, R.string.face_collect, true);
-
+        ImageView back_img = (ImageView) findViewById(R.id.back_img);
+        back_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dealBackClickEvent();
+            }
+        });
         //底层的sfvBottom用于显示实时的预览画面，ivUI在第二层显示矩形框，sfvTop在最顶层显示动画效果，ivFinger，用于显示获取到的指纹
         sfvBottom = (SurfaceView) findViewById(R.id.sfvFrame);
         ivFinger = (ImageView) findViewById(R.id.ivFinger);
@@ -80,7 +87,13 @@ public class FaceCollectionActivity extends BaseActivity implements IfaceCollect
         proxyFaceCollector.collect();
 
     }
-
+    /**
+     * 处理返回按钮
+     */
+    private void dealBackClickEvent() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
     @Override
     public void loadData() {
 

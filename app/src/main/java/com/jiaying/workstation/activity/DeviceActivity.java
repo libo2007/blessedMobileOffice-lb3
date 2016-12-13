@@ -45,9 +45,10 @@ public class DeviceActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_stop:
-
+                //停用设备
                 break;
             case R.id.btn_start:
+                //启用设备
 
                 break;
             default:
