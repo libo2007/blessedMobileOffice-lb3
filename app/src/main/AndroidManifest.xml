@@ -201,7 +201,8 @@
         <activity
             android:name=".activity.DeviceActivity"
             android:label="@string/title_activity_device"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"></activity>
     </application>
 
 </manifest>

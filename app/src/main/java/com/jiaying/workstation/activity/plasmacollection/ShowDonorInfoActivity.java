@@ -87,19 +87,20 @@ public class ShowDonorInfoActivity extends BaseActivity {
 
             private void goToSelectMachineAct() {
                 Intent intent = new Intent(ShowDonorInfoActivity.this, SelectPlasmaMachineActivity.class);
-                finish();
                 startActivity(intent);
+                finish();
             }
 
             private void goToChangetDeviceAct(){
                 Intent intent = new Intent(ShowDonorInfoActivity.this, ChangeDeviceActivity.class);
-                finish();
                 startActivity(intent);
+                finish();
             }
             private void goToFaceCollectionAct() {
                 Intent intent = new Intent(ShowDonorInfoActivity.this, RegisterResultActivity.class);
-                finish();
                 startActivity(intent);
+                finish();
+
             }
         });
     }

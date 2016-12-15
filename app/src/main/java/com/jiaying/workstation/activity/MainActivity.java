@@ -36,8 +36,8 @@ public class MainActivity extends BaseActivity {
         (findViewById(R.id.btn_4)).setVisibility(View.VISIBLE);
         (findViewById(R.id.btn_5)).setVisibility(View.GONE);
         (findViewById(R.id.btn_6)).setVisibility(View.GONE);
-        (findViewById(R.id.btn_7)).setVisibility(View.GONE);
-        (findViewById(R.id.btn_8)).setVisibility(View.GONE);
+        (findViewById(R.id.btn_7)).setVisibility(View.VISIBLE);
+        (findViewById(R.id.btn_8)).setVisibility(View.VISIBLE);
 //        (findViewById(R.id.btn_6)).setVisibility(View.VISIBLE);
     }
 

@@ -77,10 +77,10 @@ public class LaunchActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        autoWifiConnect();
-//        getLocalTempPlasmaMachineList();
-//                startActivity(new Intent(LaunchActivity.this, MainActivity.class));
-//        finish();
+//        autoWifiConnect();
+        getLocalTempPlasmaMachineList();
+                startActivity(new Intent(LaunchActivity.this, MainActivity.class));
+        finish();
     }
 
     @Override
