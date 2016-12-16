@@ -5,6 +5,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * 功能：
  */
 public class WifiAdmin {
+    private static final String TAG = "WifiAdmin";
 
     // 定义WifiManager对象
     private WifiManager mWifiManager;
@@ -158,6 +160,28 @@ public class WifiAdmin {
 
     //
 
+    /**
+     * 移除所有已经连接过的wifi
+     */
+    public void  removeAllNetwork(){
+        startScan();
+        List<ScanResult> connectWifiList = getWifiList();
+        if (connectWifiList != null) {
+            for (ScanResult scanResult : connectWifiList) {
+                String ssid = scanResult.SSID;
+                if (!TextUtils.isEmpty(ssid)) {
+                    boolean isRemove = removeNetwork(ssid);
+                    MyLog.e(TAG, "isRemove:" + isRemove);
+                }
+            }
+        }
+    }
+
+    /**
+     * 移除指定wifi
+     * @param SSID
+     * @return
+     */
     public boolean removeNetwork(String SSID) {
         WifiConfiguration config = new WifiConfiguration();
         config.allowedAuthAlgorithms.clear();

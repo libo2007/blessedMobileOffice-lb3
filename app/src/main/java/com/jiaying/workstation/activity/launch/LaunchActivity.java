@@ -126,20 +126,8 @@ public class LaunchActivity extends BaseActivity {
         @Override
         public void run() {
             super.run();
-            //移除所有连接过的
-            wifiAdmin.startScan();
-            List<ScanResult> connectWifiList = wifiAdmin.getWifiList();
-            if (connectWifiList != null) {
-                for (ScanResult scanResult : connectWifiList) {
-                    String ssid = scanResult.SSID;
-                    MyLog.e(TAG, "SSID:" + ssid);
-                    if (!TextUtils.isEmpty(ssid)) {
-                        boolean isRemove = wifiAdmin.removeNetwork(ssid);
-                        MyLog.e(TAG, "isRemove:" + isRemove);
-                    }
-                }
-            }
-
+            //移除所有连接过的wifi
+           wifiAdmin.removeAllNetwork();
             //无论何种情况都先关闭wifi，有些设备关闭打开wifi的时候可能都会有弹出框提示，
             // 这中提示是在wifi设置里面可以关闭的。
 
