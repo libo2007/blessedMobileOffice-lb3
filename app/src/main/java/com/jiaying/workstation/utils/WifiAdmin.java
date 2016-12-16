@@ -33,6 +33,7 @@ public class WifiAdmin {
                 .getSystemService(Context.WIFI_SERVICE);
         // 取得WifiInfo对象
         mWifiInfo = mWifiManager.getConnectionInfo();
+
     }
 
     // 打开WIFI
@@ -156,6 +157,24 @@ public class WifiAdmin {
     }
 
     //
+
+    public boolean removeNetwork(String SSID) {
+        WifiConfiguration config = new WifiConfiguration();
+        config.allowedAuthAlgorithms.clear();
+        config.allowedGroupCiphers.clear();
+        config.allowedKeyManagement.clear();
+        config.allowedPairwiseCiphers.clear();
+        config.allowedProtocols.clear();
+        config.SSID = "\"" + SSID + "\"";
+
+        WifiConfiguration tempConfig = this.IsExsits(SSID);
+        if (tempConfig != null) {
+            boolean success = mWifiManager.removeNetwork(tempConfig.networkId);
+            mWifiManager.saveConfiguration();
+            return success;
+        }
+        return false;
+    }
 
     public WifiConfiguration CreateWifiInfo(String SSID, String Password,
                                             int Type) {
